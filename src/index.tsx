@@ -106,8 +106,6 @@ const App = () => {
         ],
         { cancelable: false }
       );
-
-      check = false;
     }
   }, [snakePosition, trail, gameOver]);
 
