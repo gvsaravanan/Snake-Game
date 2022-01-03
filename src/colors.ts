@@ -4,5 +4,5 @@ export default {
   controlButton: "rgb(10, 10, 25)",
   controlButtonShadow: "rgba(80, 80, 120, 0.8)",
   snake: "rgb(251, 255, 0)",
-  food: "tomato",
+  food: "green",
 };
