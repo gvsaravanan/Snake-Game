@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useReducer } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
+  BackHandler
 } from "react-native";
 
 import { coordinatesType, DIRECTIONS } from "./types";
@@ -45,9 +46,9 @@ const App = () => {
   const [foodPosition, setFoodPosition] = useState<coordinatesType>(INITIAL_FOOD_POSITION);
   const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
-  // const [speed, setSpeed] = useState<number>(15);
 
   let interval: number | undefined = useRef().current;
+  var check = false;
 
   useEffect(() => {
     StatusBar.setBarStyle("light-content");
@@ -60,8 +61,6 @@ const App = () => {
       clearInterval(interval);
       return;
     }
-
-    // clear interval and change get new position as soon as direction changes
     clearInterval(interval);
     setSnakePosition((snakePosition) =>
       getNextSnakePosition(snakePosition, direction)
@@ -96,15 +95,19 @@ const App = () => {
   }, [snakePosition, foodPosition]);
 
   useEffect(() => {
-    if (!gameOver && isSteppingOnOwnBody(snakePosition, trail.slice(0, trail.length - 2))) {
+    if (!gameOver && isSteppingOnOwnBody(snakePosition, trail.slice(0, trail.length - 2)) && !check) {
       setGameOver(true);
 
       Alert.alert(
         "Game Over",
-        `\nScore: ${score}\n\nStart New Game ?`,
-        [{ text: "OK", onPress: resetGameState }],
+        `\nYour Score is: ${score}\n\nStart New Game?`,
+        [
+          { text: "Yes", onPress: resetGameState },
+        ],
         { cancelable: false }
       );
+
+      check = false;
     }
   }, [snakePosition, trail, gameOver]);
 
@@ -116,6 +119,7 @@ const App = () => {
     setFoodPosition(INITIAL_FOOD_POSITION);
     setTrail([]);
     setDirection(DIRECTIONS.right);
+    check = true;
   };
 
   const isSteppingOnOwnBody: (
@@ -157,6 +161,12 @@ const App = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{ height: 20 }}>
+        <View style={styles.scoreContainer}>
+          <Text style={styles.score}>Score: {score}</Text>
+        </View>
+      </View>
+
       <View style={{ height: 40 }} />
 
       <GameBoard
@@ -173,22 +183,18 @@ const App = () => {
         handlePress={handleDirectionChange}
         containerStyle={styles.controlsContainer}
       />
-
-      <View style={styles.scoreContainer}>
-        <Text style={styles.score}>Score: {score}</Text>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: Colors.board,
   },
   boardContainer: {
     flexDirection: "row",
-    height: window.width,
+    height: window.width-window.width/12,
   },
   controlsContainer: {
     flex: 1,
@@ -200,12 +206,14 @@ const styles = StyleSheet.create({
   },
   scoreContainer: {
     position: "absolute",
-    bottom: 10,
-    left: 10,
+    top: 25,
+    right: 15,
   },
   score: {
     color: "white",
-    fontSize: 18,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 24,
   },
 });
 
