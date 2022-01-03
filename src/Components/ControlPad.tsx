@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, ViewProps } from "react-native";
-
 import ControlButton from "./ControlButton";
 import { DIRECTIONS } from "../types";
 import Colors from "../colors";
@@ -9,11 +8,11 @@ const window = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   controlButton: {
-    height: (window.height - window.width) / 4,
-    width: (window.height - window.width) / 4,
+    height: (window.height - window.width) / 3.5,
+    width: (window.height - window.width) / 3.5,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: (window.height - window.width) / 8,
+    borderRadius: (window.height - window.width) / 9,
     backgroundColor: Colors.controlButton,
     shadowRadius: 5,
     shadowOffset: {

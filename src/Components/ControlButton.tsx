@@ -1,12 +1,10 @@
 import React from "react";
+import { DIRECTIONS } from "../types";
 import {
   View,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
   TouchableOpacityProps,
 } from "react-native";
-import { DIRECTIONS } from "../types";
 
 interface ControlButtonProps extends TouchableOpacityProps {
   direction: DIRECTIONS;
