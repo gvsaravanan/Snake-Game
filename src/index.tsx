@@ -6,8 +6,9 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
-  BackHandler
 } from "react-native";
+
+import RNExitApp from 'react-native-exit-app';
 
 import { coordinatesType, DIRECTIONS } from "./types";
 
@@ -18,7 +19,7 @@ import {
 } from "./config";
 import ControlPad from "./Components/ControlPad";
 import GameBoard from "./Components/GameBoard";
-import Colors from "./colors";
+import { FOOD_COLORS, Colors } from "./colors";
 
 const window = Dimensions.get("window");
 
@@ -46,6 +47,8 @@ const App = () => {
   const [foodPosition, setFoodPosition] = useState<coordinatesType>(INITIAL_FOOD_POSITION);
   const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [foodColor, setFoodColor] = useState<string>(FOOD_COLORS[Math.floor(Math.random()*FOOD_COLORS.length)]);
+  const [highScore, setHighScore] = useState<number>(0);
 
   let interval: number | undefined = useRef().current;
   var check = false;
@@ -85,6 +88,7 @@ const App = () => {
 
   useEffect(() => {
     if (areSamePositions(snakePosition, foodPosition)) {
+      setFoodColor(FOOD_COLORS[Math.floor(Math.random()*FOOD_COLORS.length)]);
       setFoodPosition({
         x: Math.floor(Math.random() * (NUMBER_OF_ROWS - 1)),
         y: Math.floor(Math.random() * (NUMBER_OF_ROWS - 1)),
@@ -95,14 +99,19 @@ const App = () => {
   }, [snakePosition, foodPosition]);
 
   useEffect(() => {
-    if (!gameOver && isSteppingOnOwnBody(snakePosition, trail.slice(0, trail.length - 2)) && !check) {
+    if (!gameOver && isSteppingOnOwnBody(snakePosition, trail.slice(0, trail.length - 2)) && !check && score != 0) {
+      if (score > highScore) {
+        setHighScore(score);
+      }
+
       setGameOver(true);
 
       Alert.alert(
         "Game Over",
-        `\nYour Score is: ${score}\n\nStart New Game?`,
+        `\nHigh Score: ${highScore}\nYour Score is: ${score}\n\nPlay Again?`,
         [
           { text: "Yes", onPress: resetGameState },
+          { text: "No", onPress: exit }
         ],
         { cancelable: false }
       );
@@ -118,6 +127,10 @@ const App = () => {
     setTrail([]);
     setDirection(DIRECTIONS.right);
     check = true;
+  };
+
+  const exit = () => {
+    RNExitApp.exitApp();
   };
 
   const isSteppingOnOwnBody: (
@@ -173,7 +186,7 @@ const App = () => {
         snakeTrail={trail}
         foodPosition={foodPosition}
         snakeColor={Colors.snake}
-        foodColor={Colors.food}
+        foodColor={foodColor}
         numberOfRows={NUMBER_OF_ROWS}
       />
 
@@ -192,7 +205,7 @@ const styles = StyleSheet.create({
   },
   boardContainer: {
     flexDirection: "row",
-    height: window.width-window.width/12,
+    height: window.width-window.width/10,
   },
   controlsContainer: {
     flex: 1,
