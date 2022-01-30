@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Dimensions, ViewProps } from "react-native";
 import ControlButton from "./ControlButton";
 import { DIRECTIONS } from "../types";
-import Colors from "../colors";
+import { Colors } from "../colors";
 
 const window = Dimensions.get("window");
 

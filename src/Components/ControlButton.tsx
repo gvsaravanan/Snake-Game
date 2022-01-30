@@ -31,7 +31,7 @@ const ControlButton: React.FunctionComponent<ControlButtonProps> = ({
                 borderBottomWidth: 15,
                 borderLeftColor: "transparent",
                 borderRightColor: "transparent",
-                borderBottomColor: "white",
+                borderBottomColor: "rgb(173, 243, 255)",
               }
             : null,
           direction === DIRECTIONS.down
@@ -41,7 +41,7 @@ const ControlButton: React.FunctionComponent<ControlButtonProps> = ({
                 borderTopWidth: 15,
                 borderLeftColor: "transparent",
                 borderRightColor: "transparent",
-                borderTopColor: "white",
+                borderTopColor: "rgb(173, 243, 255)",
               }
             : null,
           direction === DIRECTIONS.left
@@ -51,7 +51,7 @@ const ControlButton: React.FunctionComponent<ControlButtonProps> = ({
                 borderRightWidth: 15,
                 borderTopColor: "transparent",
                 borderBottomColor: "transparent",
-                borderRightColor: "white",
+                borderRightColor: "rgb(173, 243, 255)",
               }
             : null,
           direction === DIRECTIONS.right
@@ -61,7 +61,7 @@ const ControlButton: React.FunctionComponent<ControlButtonProps> = ({
                 borderLeftWidth: 15,
                 borderTopColor: "transparent",
                 borderBottomColor: "transparent",
-                borderLeftColor: "white",
+                borderLeftColor: "rgb(173, 243, 255)",
               }
             : null,
         ]}
