@@ -7,11 +7,7 @@ import {
   StatusBar,
   Alert,
 } from "react-native";
-
-import RNExitApp from 'react-native-exit-app';
-
 import { coordinatesType, DIRECTIONS } from "./types";
-
 import {
   NUMBER_OF_ROWS,
   INITIAL_FOOD_POSITION,
@@ -103,7 +99,7 @@ const App = () => {
       if (score > highScore) {
         setHighScore(score);
       }
-
+      console.log("hello");
       setGameOver(true);
 
       Alert.alert(
@@ -111,7 +107,7 @@ const App = () => {
         `\nHigh Score: ${highScore}\nYour Score is: ${score}\n\nPlay Again?`,
         [
           { text: "Yes", onPress: resetGameState },
-          { text: "No", onPress: exit }
+          { text: "No", onPress: resetGameState }
         ],
         { cancelable: false }
       );
@@ -127,10 +123,6 @@ const App = () => {
     setTrail([]);
     setDirection(DIRECTIONS.right);
     check = true;
-  };
-
-  const exit = () => {
-    RNExitApp.exitApp();
   };
 
   const isSteppingOnOwnBody: (
